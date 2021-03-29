@@ -1,12 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
 # Create your models here.
 from django.urls import reverse
 
 
-class Curr_User(models.Model):
+class CurrUser(models.Model):
     name = models.CharField(max_length=150)
     image = models.ImageField(upload_to='users_photo')
     user_info = models.TextField()
@@ -19,5 +18,4 @@ class Curr_User(models.Model):
         super().save()
 
     def get_absolute_url(self):
-        # return reverse('article-detail', args=(str(self.id)))
         return reverse('user-page')

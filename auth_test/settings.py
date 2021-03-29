@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import secret
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,13 +52,14 @@ INSTALLED_APPS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # google auth settings \/
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '395835018068-q7q53i4fpm44h01hcsup182gk8bq7qmq.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Y-_E4LNBPHcZ0ecXb4wVrh6V'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secret.KEY
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secret.SECRET
 
 LOGIN_URL = '/auth/login/google-oauth2/'
 
@@ -65,7 +67,6 @@ LOGIN_REDIRECT_URL = '/userpage'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
 
 # google auth settings /\
 

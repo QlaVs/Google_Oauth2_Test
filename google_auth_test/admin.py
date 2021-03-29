@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Curr_User
+from .models import CurrUser
 
 
 # Register your models here.
-admin.site.register(Curr_User)
+admin.site.register(CurrUser)
