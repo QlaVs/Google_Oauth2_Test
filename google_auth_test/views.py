@@ -1,40 +1,45 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.views.generic import UpdateView, CreateView
+from django.shortcuts import render
+from django.views.generic import UpdateView, CreateView, TemplateView
 
 from .forms import ProfileUpdateForm
 from .models import CurrUser
 
 
-# Create your views here.
-def index(request):
-    if request.user.is_authenticated:
-        return redirect('user-page')
-    else:
-        return render(request, 'log.html')
+class Index(TemplateView):
+    template_name = 'log.html'
 
 
-def users_list(request):
-    return check_if_logged(request, "list.html")
+class UserPageView(LoginRequiredMixin, TemplateView):
+    template_name = 'user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['site_user'] = CurrUser.objects.filter(user_id=self.request.user.id)
+        context['username'] = self.request.user.username
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return render(self.request, 'must_be_logged.html')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
 
-def user_page(request):
-    return check_if_logged(request, "user.html")
+class UsersListView(LoginRequiredMixin, TemplateView):
+    template_name = 'list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['site_user'] = CurrUser.objects.all()
+        context['username'] = self.request.user.username
+        return context
 
-def check_if_logged(request, specific_url):
-    if request.user.is_authenticated:
-        context = {
-            'username': request.user.username,
-            'curr_path': request.get_full_path(),
-        }
-        if specific_url == "user.html":
-            context['site_user'] = CurrUser.objects.filter(user_id=request.user.id)
-        elif specific_url == "list.html":
-            context['site_user'] = CurrUser.objects.all()
-        return render(request, specific_url, context)
-    else:
-        return render(request, 'must_be_logged.html')
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return render(self.request, 'must_be_logged.html')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
 
 class UserCreateView(LoginRequiredMixin, CreateView):
@@ -52,6 +57,12 @@ class UserCreateView(LoginRequiredMixin, CreateView):
         context['auth'] = self.kwargs.get("pk")
         return context
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return render(self.request, 'must_be_logged.html')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = CurrUser
@@ -67,3 +78,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         context['u_id'] = self.request.user.id
         context['auth'] = self.kwargs.get("pk")
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return render(self.request, 'must_be_logged.html')
+        else:
+            return super().dispatch(request, *args, **kwargs)

@@ -39,6 +39,12 @@
                 <p class="article-content">Info: {{ user.user_info }}</p>
               </div>
             </article>
+
+        {% empty %}
+            <div class="media-body">
+                Create Your Profile!
+                <p>
+            </div>
         {% endfor %}
         {% if site_user %}
             <a class="btn btn-outline-info" href="{% url 'user-page-update'  user.pk %}">Update User</a>

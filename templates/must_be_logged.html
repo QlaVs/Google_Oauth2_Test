@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Error</title>
-</head>
-<body>
-    <h2>You must be logged in to see this page</h2>
-    <a href="{% url 'my-login' %}"> LogIn </a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+<title>Error</title>
+{% endblock title %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <h2>You must be logged In to see this page</h2>
+        <h3><a class="btn btn-success" href="{% url 'my-login' %}"> LogIn </a></h3>
+    </div>
+{% endblock content %}

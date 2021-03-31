@@ -14,10 +14,8 @@
         </nav>
     </header>
 
-    <div class="content-section">
-        <fieldset class="form-group">
-            <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">Зайти через Google</a>
-        </fieldset>
+    <div class="content-section" style="text-align: center;">
+            <a class="btn btn-primary btn-lg" href="{% url 'social:begin' 'google-oauth2' %}">Зайти через Google</a>
     </div>
 
 {% endblock content%}

@@ -39,7 +39,10 @@
                 <p class="article-content">Info: {{ user.user_info }}</p>
               </div>
             </article>
-
+        {% empty %}
+            <div class="media-body">
+                No profiles registered!
+            </div>
         {% endfor %}
 
     <h5 class="navbar-brand mr-4">User logged now: {{ username }}</h5>
